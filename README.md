@@ -1,10 +1,5 @@
 # UNIFACE — Portal Acadêmico (API + Front-end)
 
-Este pacote separa o portal em duas partes:
-
-- **`server.js`** — API REST (Node.js + Express) com todos os dados e regras de negócio que antes estavam embutidos no HTML (login, notas, frequência, financeiro, suporte, gestão de alunos pelo professor e as três telas da coordenação).
-- **`uniface-portal-api.html`** — a mesma interface visual de antes, agora consumindo a API via `fetch` em vez de manipular um objeto local.
-
 ## Como rodar
 
 1. Instale as dependências do back-end:
