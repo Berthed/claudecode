@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIFACE — Portal Acadêmico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#101c33;
+    --ink-2:#1c2e4d;
+    --brass:#b8863f;
+    --brass-light:#e4c184;
+    --paper:#faf7f0;
+    --paper-2:#f1ece1;
+    --line:rgba(16,28,51,0.12);
+    --text:#1b2233;
+    --muted:#5b6478;
+    --green:#3f7a5c;
+    --green-bg:#e7f1ea;
+    --red:#a8433c;
+    --red-bg:#f7e9e7;
+    --amber:#a8791f;
+    --amber-bg:#f6ecd6;
+    --radius-card:14px;
+    --radius-btn:8px;
+    --radius-pill:999px;
+    --shadow:0 1px 2px rgba(16,28,51,0.06), 0 8px 24px -12px rgba(16,28,51,0.18);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+    color:var(--text);
+    min-height:100vh;
+    font-variant-numeric:tabular-nums;
+  }
+  h1,h2,h3,.brand{font-family:'Fraunces',serif;}
+  button{font-family:inherit;cursor:pointer;}
+  input,select,textarea{font-family:inherit;}
+
+  /* ---------- LOGIN ---------- */
+  #login-screen{
+    min-height:100vh;
+    display:flex;
+  }
+  .login-brand{
+    flex:1 1 42%;
+    background:
+      radial-gradient(700px 500px at 15% 15%, rgba(184,134,63,0.20), transparent 60%),
+      linear-gradient(160deg, var(--ink) 0%, var(--ink-2) 100%);
+    color:#f4ecdd;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:56px 52px;
+    position:relative;
+    overflow:hidden;
+  }
+  .seal{
+    width:64px;height:64px;
+    border:1.5px solid var(--brass-light);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;
+    font-size:22px;
+    letter-spacing:0.5px;
+    color:var(--brass-light);
+    flex-shrink:0;
+  }
+  .login-brand .wordmark{
+    margin-top:28px;
+    font-size:42px;
+    font-weight:600;
+    letter-spacing:0.5px;
+    line-height:1.05;
+  }
+  .login-brand .tagline{
+    font-family:'Inter',sans-serif;
+    font-size:15px;
+    color:#cdbfa4;
+    margin-top:10px;
+    max-width:320px;
+    line-height:1.5;
+  }
+  .login-brand .footer-note{
+    font-size:13px;
+    color:#8f8570;
+    border-top:1px solid rgba(244,236,221,0.15);
+    padding-top:18px;
+  }
+  .login-panel{
+    flex:1 1 58%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+  }
+  .login-card{
+    width:100%;
+    max-width:380px;
+  }
+  .login-card h2{
+    font-size:26px;
+    font-weight:600;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .login-card p.sub{
+    color:var(--muted);
+    font-size:14.5px;
+    margin:0 0 30px;
+  }
+  .field{margin-bottom:18px;}
+  .field label{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:7px;
+  }
+  .field input{
+    width:100%;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    border-radius:var(--radius-btn);
+    font-size:15px;
+    background:#fff;
+    color:var(--text);
+    outline:none;
+    transition:border-color .15s;
+  }
+  .field input:focus{border-color:var(--brass);box-shadow:0 0 0 3px rgba(184,134,63,0.15);}
+  .field .hint{font-size:12px;color:var(--muted);margin-top:5px;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border:none;border-radius:var(--radius-btn);
+    padding:12px 20px;
+    font-size:14.5px;font-weight:600;
+    transition:filter .15s, transform .05s;
+  }
+  .btn:active{transform:translateY(1px);}
+  .btn:disabled{opacity:0.6;cursor:default;}
+  .btn-primary{background:var(--ink);color:#f4ecdd;width:100%;padding:13px;font-size:15px;}
+  .btn-primary:hover{filter:brightness(1.15);}
+  .btn-brass{background:var(--brass);color:#241a0a;}
+  .btn-brass:hover{filter:brightness(1.08);}
+  .btn-outline{background:transparent;border:1px solid var(--line);color:var(--ink);}
+  .btn-outline:hover{background:var(--paper-2);}
+  .btn-danger{background:var(--red-bg);color:var(--red);border:1px solid rgba(168,67,60,0.25);}
+  .btn-danger:hover{filter:brightness(0.97);}
+  .btn-sm{padding:7px 12px;font-size:13px;}
+  .login-error{
+    background:var(--red-bg);color:var(--red);
+    border-radius:var(--radius-btn);
+    padding:10px 14px;font-size:13.5px;
+    margin-bottom:16px;
+    display:none;
+  }
+
+  /* ---------- APP SHELL ---------- */
+  #app-screen{display:none;min-height:100vh;}
+  .topbar{
+    height:64px;
+    background:var(--ink);
+    color:#f4ecdd;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 28px;
+  }
+  .topbar .brand{display:flex;align-items:center;gap:12px;}
+  .topbar .brand .seal-sm{
+    width:34px;height:34px;border:1.5px solid var(--brass-light);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--brass-light);
+  }
+  .topbar .brand-name{font-size:19px;font-weight:600;letter-spacing:0.3px;}
+  .topbar .user-info{display:flex;align-items:center;gap:16px;font-family:'Inter',sans-serif;}
+  .topbar .user-info .who{text-align:right;}
+  .topbar .user-info .who .name{font-size:13.5px;font-weight:600;}
+  .topbar .user-info .who .role{font-size:11.5px;color:#c9bda3;}
+  .layout{display:flex;min-height:calc(100vh - 64px);}
+  .sidebar{
+    width:220px;flex-shrink:0;
+    background:var(--paper-2);
+    border-right:1px solid var(--line);
+    padding:22px 14px;
+  }
+  .sidebar button.navitem{
+    display:flex;align-items:center;gap:10px;
+    width:100%;text-align:left;
+    background:transparent;border:none;
+    padding:11px 14px;border-radius:var(--radius-btn);
+    font-size:14px;font-weight:500;color:var(--ink);
+    margin-bottom:4px;
+  }
+  .sidebar button.navitem:hover{background:rgba(16,28,51,0.06);}
+  .sidebar button.navitem.active{background:var(--ink);color:#f4ecdd;}
+  .content{flex:1;padding:32px 40px;overflow-y:auto;}
+  .content h1{font-size:24px;font-weight:600;margin:0 0 4px;color:var(--ink);}
+  .content .subhead{color:var(--muted);font-size:14px;margin:0 0 28px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius-card);
+    padding:20px;
+  }
+  .card h3{font-size:15.5px;font-weight:600;margin:0 0 14px;color:var(--ink);}
+  .stat-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;font-size:13.5px;}
+  .stat-row .label{color:var(--muted);}
+  .stat-row .value{font-weight:600;color:var(--ink);}
+  .grade-big{font-family:'Fraunces',serif;font-size:32px;font-weight:600;color:var(--ink);}
+  .badge{
+    display:inline-block;padding:3px 10px;border-radius:var(--radius-pill);
+    font-size:11.5px;font-weight:600;
+  }
+  .badge.ok{background:var(--green-bg);color:var(--green);}
+  .badge.warn{background:var(--amber-bg);color:var(--amber);}
+  .badge.bad{background:var(--red-bg);color:var(--red);}
+  .badge.neutral{background:var(--paper-2);color:var(--muted);}
+  .progress{height:6px;background:var(--paper-2);border-radius:99px;overflow:hidden;margin-top:10px;}
+  .progress > div{height:100%;background:var(--green);}
+  .progress.warn > div{background:var(--amber);}
+  .progress.bad > div{background:var(--red);}
+
+  table{width:100%;border-collapse:collapse;font-size:13.8px;}
+  th{
+    text-align:left;font-size:12px;color:var(--muted);font-weight:600;
+    padding:10px 12px;border-bottom:1px solid var(--line);
+  }
+  td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+  .table-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--radius-card);overflow:hidden;}
+  input.mini{
+    width:64px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-size:13.5px;
+  }
+  input.mini:focus{outline:none;border-color:var(--brass);}
+
+  .msg-list{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;max-height:360px;overflow-y:auto;padding-right:4px;}
+  .msg{
+    background:#fff;border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;font-size:13.8px;
+  }
+  .msg .meta{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:5px;}
+  .msg.from-coord{border-left:3px solid var(--brass);}
+  .msg .reply{
+    margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);
+    font-size:13px;color:var(--ink-2);
+  }
+  .compose{background:#fff;border:1px solid var(--line);border-radius:var(--radius-card);padding:16px;}
+  .compose textarea{
+    width:100%;min-height:80px;border:1px solid var(--line);border-radius:8px;
+    padding:10px 12px;font-size:13.8px;resize:vertical;outline:none;margin-bottom:10px;
+  }
+  .compose textarea:focus{border-color:var(--brass);}
+  .empty-state{color:var(--muted);font-size:13.5px;padding:18px 0;}
+  .toast{
+    position:fixed;bottom:24px;right:24px;
+    background:var(--ink);color:#f4ecdd;
+    padding:12px 18px;border-radius:10px;font-size:13.5px;
+    box-shadow:var(--shadow);
+    opacity:0;transform:translateY(8px);
+    transition:opacity .2s, transform .2s;
+    pointer-events:none;z-index:50;
+  }
+  .toast.show{opacity:1;transform:translateY(0);}
+  .toast.error{background:var(--red);}
+  .section-gap{margin-top:30px;}
+  .flex-between{display:flex;justify-content:space-between;align-items:center;}
+  .tag-row{display:flex;gap:8px;flex-wrap:wrap;}
+  select.role-select{
+    padding:6px 10px;border:1px solid var(--line);border-radius:7px;font-size:13px;background:#fff;
+  }
+  .name-cell{font-weight:600;color:var(--ink);}
+  .sub-cell{font-size:12px;color:var(--muted);}
+  @media (max-width:880px){
+    #login-screen{flex-direction:column;}
+    .login-brand{padding:34px 28px;}
+    .layout{flex-direction:column;}
+    .sidebar{width:100%;display:flex;overflow-x:auto;border-right:none;border-bottom:1px solid var(--line);}
+    .sidebar button.navitem{white-space:nowrap;margin-bottom:0;}
+    .content{padding:24px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN ===================== -->
+<div id="login-screen">
+  <div class="login-brand">
+    <div>
+      <div class="seal">UF</div>
+      <div class="wordmark">UNIFACE</div>
+      <div class="tagline">Portal acadêmico integrado para alunos, professores e coordenação.</div>
+    </div>
+    <div class="footer-note">Matrícula institucional de 10 dígitos · acesso restrito à comunidade UNIFACE</div>
+  </div>
+  <div class="login-panel">
+    <div class="login-card">
+      <h2>Acessar o portal</h2>
+      <p class="sub">Entre com sua matrícula e senha para continuar.</p>
+      <div class="login-error" id="login-error">Matrícula ou senha inválida. Verifique os dados e tente novamente.</div>
+      <div class="field">
+        <label for="input-matricula">Matrícula</label>
+        <input id="input-matricula" type="text" inputmode="numeric" maxlength="10" placeholder="0000000000">
+        <div class="hint">10 números</div>
+      </div>
+      <div class="field">
+        <label for="input-senha">Senha</label>
+        <input id="input-senha" type="password" placeholder="Senha alfanumérica">
+      </div>
+      <button class="btn btn-primary" id="btn-entrar" onclick="tryLogin()">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="app-screen">
+  <div class="topbar">
+    <div class="brand">
+      <div class="seal-sm">UF</div>
+      <div class="brand-name">UNIFACE</div>
+    </div>
+    <div class="user-info">
+      <div class="who">
+        <div class="name" id="topbar-name">—</div>
+        <div class="role" id="topbar-role">—</div>
+      </div>
+      <button class="btn btn-outline btn-sm" style="color:#f4ecdd;border-color:rgba(244,236,221,0.35);" onclick="logout()">Sair</button>
+    </div>
+  </div>
+  <div class="layout">
+    <div class="sidebar" id="sidebar"></div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   CONFIGURAÇÃO DA API
+   Antes, DB vivia em memória neste próprio arquivo.
+   Agora todo dado e toda regra de negócio vêm do back-end.
+   ============================================================ */
+const API_BASE = 'http://localhost:3000/api';
+
+let session = null; // { matricula, role, nome, token }
+let activeTab = null;
+
+/* ============================================================
+   CLIENTE DA API
+   ============================================================ */
+async function api(path, options = {}){
+  const headers = Object.assign({ 'Content-Type': 'application/json' }, options.headers || {});
+  if(session && session.token){
+    headers['Authorization'] = 'Bearer ' + session.token;
+  }
+  const res = await fetch(API_BASE + path, Object.assign({}, options, { headers }));
+  let data = null;
+  try{ data = await res.json(); }catch(e){ data = null; }
+  if(!res.ok){
+    const erro = (data && data.erro) ? data.erro : 'Erro inesperado ao falar com o servidor.';
+    throw new Error(erro);
+  }
+  return data;
+}
+
+/* ============================================================
+   LOGIN / LOGOUT
+   ============================================================ */
+async function tryLogin(){
+  const mat = document.getElementById('input-matricula').value.trim();
+  const senha = document.getElementById('input-senha').value;
+  const errBox = document.getElementById('login-error');
+  const btn = document.getElementById('btn-entrar');
+
+  if(!/^\d{10}$/.test(mat)){
+    errBox.textContent = 'A matrícula deve conter exatamente 10 números.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  try{
+    const data = await api('/login', {
+      method: 'POST',
+      body: JSON.stringify({ matricula: mat, senha })
+    });
+    errBox.style.display = 'none';
+    session = { matricula: data.matricula, role: data.role, nome: data.nome, token: data.token };
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app-screen').style.display = 'block';
+    document.getElementById('topbar-name').textContent = data.nome;
+    document.getElementById('topbar-role').textContent =
+      data.role === 'aluno' ? 'Aluno' : data.role === 'professor' ? 'Professor' : 'Coordenação';
+    buildSidebar();
+  }catch(e){
+    errBox.textContent = e.message;
+    errBox.style.display = 'block';
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+async function logout(){
+  try{ if(session) await api('/logout', { method: 'POST' }); }catch(e){ /* ignora falha ao sair */ }
+  session = null;
+  document.getElementById('input-matricula').value = '';
+  document.getElementById('input-senha').value = '';
+  document.getElementById('login-error').style.display = 'none';
+  document.getElementById('app-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+function showToast(text, isError){
+  const t = document.getElementById('toast');
+  t.textContent = text;
+  t.classList.toggle('error', !!isError);
+  t.classList.add('show');
+  clearTimeout(showToast._h);
+  showToast._h = setTimeout(()=> t.classList.remove('show'), 2200);
+}
+
+/* ============================================================
+   SIDEBAR / ROTEAMENTO DE ABAS
+   ============================================================ */
+const TABS = {
+  aluno: [
+    { id:'notas', label:'Notas' },
+    { id:'frequencia', label:'Frequência' },
+    { id:'financeiro', label:'Financeiro' },
+    { id:'suporte', label:'Suporte' }
+  ],
+  professor: [
+    { id:'alunos', label:'Meus Alunos' },
+    { id:'suporte', label:'Suporte' }
+  ],
+  coordenador: [
+    { id:'comunicacao', label:'Comunicação' },
+    { id:'administracao', label:'Administração' },
+    { id:'diretoria', label:'Diretoria' }
+  ]
+};
+
+function buildSidebar(){
+  const sb = document.getElementById('sidebar');
+  sb.innerHTML = '';
+  TABS[session.role].forEach((tab) => {
+    const btn = document.createElement('button');
+    btn.className = 'navitem';
+    btn.textContent = tab.label;
+    btn.onclick = () => switchTab(tab.id);
+    btn.dataset.tab = tab.id;
+    sb.appendChild(btn);
+  });
+  switchTab(TABS[session.role][0].id);
+}
+
+function switchTab(tabId){
+  activeTab = tabId;
+  document.querySelectorAll('.navitem').forEach(b=>{
+    b.classList.toggle('active', b.dataset.tab === tabId);
+  });
+  const render = {
+    notas: renderAlunoNotas,
+    frequencia: renderAlunoFrequencia,
+    financeiro: renderAlunoFinanceiro,
+    suporte: (session.role === 'aluno' || session.role === 'professor') ? renderSuporte : null,
+    alunos: renderProfessorAlunos,
+    comunicacao: renderCoordComunicacao,
+    administracao: renderCoordAdministracao,
+    diretoria: renderCoordDiretoria
+  }[tabId];
+  if(render) render();
+}
+
+/* ============================================================
+   ALUNO
+   ============================================================ */
+async function renderAlunoNotas(){
+  const content = document.getElementById('content');
+  content.innerHTML = `<h1>Notas</h1><p class="subhead">Carregando...</p>`;
+  try{
+    const materias = await api('/aluno/notas');
+    const cards = Object.values(materias).map(m => {
+      const nota = m.nota;
+      const cls = nota >= 7 ? 'ok' : nota >= 5 ? 'warn' : 'bad';
+      return `
+        <div class="card">
+          <h3>${m.nome}</h3>
+          <div class="grade-big">${nota.toFixed(1)}</div>
+          <div class="stat-row" style="margin-top:10px;">
+            <span class="label">Situação</span>
+            <span class="badge ${cls}">${nota >= 7 ? 'Aprovado(a)' : nota >= 5 ? 'Em recuperação' : 'Atenção'}</span>
+          </div>
+        </div>`;
+    }).join('');
+    content.innerHTML = `
+      <h1>Notas</h1>
+      <p class="subhead">Visualização das notas nas 4 disciplinas do semestre atual.</p>
+      <div class="grid">${cards}</div>
+    `;
+  }catch(e){
+    content.innerHTML = `<h1>Notas</h1><p class="subhead">${e.message}</p>`;
+  }
+}
+
+async function renderAlunoFrequencia(){
+  const content = document.getElementById('content');
+  content.innerHTML = `<h1>Frequência</h1><p class="subhead">Carregando...</p>`;
+  try{
+    const materias = await api('/aluno/frequencia');
+    const rows = Object.values(materias).map(m => {
+      const pct = m.percentual;
+      const cls = pct >= 80 ? '' : pct >= 75 ? 'warn' : 'bad';
+      return `
+        <div class="card">
+          <h3>${m.nome}</h3>
+          <div class="stat-row"><span class="label">Faltas registradas</span><span class="value">${m.faltas}</span></div>
+          <div class="stat-row"><span class="label">Carga horária</span><span class="value">${m.cargaHoraria}h</span></div>
+          <div class="stat-row"><span class="label">Frequência</span><span class="value">${pct}%</span></div>
+          <div class="progress ${cls}"><div style="width:${pct}%"></div></div>
+        </div>`;
+    }).join('');
+    content.innerHTML = `
+      <h1>Frequência</h1>
+      <p class="subhead">Somente visualização — os registros são mantidos pelos professores de cada disciplina.</p>
+      <div class="grid">${rows}</div>
+    `;
+  }catch(e){
+    content.innerHTML = `<h1>Frequência</h1><p class="subhead">${e.message}</p>`;
+  }
+}
+
+async function renderAlunoFinanceiro(){
+  const content = document.getElementById('content');
+  content.innerHTML = `<h1>Financeiro</h1><p class="subhead">Carregando...</p>`;
+  try{
+    const b = await api('/aluno/financeiro');
+    content.innerHTML = `
+      <h1>Financeiro</h1>
+      <p class="subhead">Boletos e pagamentos da sua matrícula.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Descrição</th><th>Vencimento</th><th>Valor</th><th>Situação</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="name-cell">${b.descricao}</td>
+              <td>${b.vencimento}</td>
+              <td>R$ ${b.valor.toFixed(2).replace('.',',')}</td>
+              <td><span class="badge ${b.status==='pendente'?'warn':'ok'}">${b.status==='pendente'?'Pendente':'Pago'}</span></td>
+              <td>${b.status==='pendente' ? `<button class="btn btn-brass btn-sm" onclick="pagarBoleto()">Pagar boleto</button>` : '—'}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    `;
+  }catch(e){
+    content.innerHTML = `<h1>Financeiro</h1><p class="subhead">${e.message}</p>`;
+  }
+}
+
+async function pagarBoleto(){
+  try{
+    await api('/aluno/financeiro/pagar', { method: 'POST' });
+    await renderAlunoFinanceiro();
+    showToast('Boleto marcado como pago.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+
+/* ============================================================
+   SUPORTE (aluno e professor -> coordenação)
+   ============================================================ */
+async function renderSuporte(){
+  const content = document.getElementById('content');
+  content.innerHTML = `<h1>Suporte</h1><p class="subhead">Carregando...</p>`;
+  try{
+    const minhas = await api('/suporte');
+    const list = minhas.length ? minhas.map(m => `
+      <div class="msg">
+        <div class="meta"><span>Você · ${m.data}</span></div>
+        ${m.texto}
+        ${m.resposta ? `<div class="reply"><strong>Coordenação:</strong> ${m.resposta}</div>` : ''}
+      </div>
+    `).join('') : `<div class="empty-state">Nenhuma mensagem enviada ainda.</div>`;
+
+    content.innerHTML = `
+      <h1>Suporte</h1>
+      <p class="subhead">Comunicação direta com a coordenação do curso.</p>
+      <div class="msg-list">${list}</div>
+      <div class="compose">
+        <textarea id="suporte-texto" placeholder="Descreva sua dúvida ou solicitação para a coordenação..."></textarea>
+        <button class="btn btn-brass" onclick="enviarSuporte()">Enviar mensagem</button>
+      </div>
+    `;
+  }catch(e){
+    content.innerHTML = `<h1>Suporte</h1><p class="subhead">${e.message}</p>`;
+  }
+}
+
+async function enviarSuporte(){
+  const texto = document.getElementById('suporte-texto').value.trim();
+  if(!texto) return;
+  try{
+    await api('/suporte', { method: 'POST', body: JSON.stringify({ texto }) });
+    await renderSuporte();
+    showToast('Mensagem enviada à coordenação.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+
+/* ============================================================
+   PROFESSOR — gerenciar 10 alunos (notas e faltas)
+   ============================================================ */
+async function renderProfessorAlunos(){
+  const content = document.getElementById('content');
+  content.innerHTML = `<h1>Meus Alunos — Cálculo I</h1><p class="subhead">Carregando...</p>`;
+  try{
+    const roster = await api('/professor/alunos');
+    const rows = roster.map(s => `
+      <tr>
+        <td><div class="name-cell">${s.nome}</div><div class="sub-cell">Matrícula ${s.matricula}</div></td>
+        <td><input class="mini" type="number" min="0" max="10" step="0.1" value="${s.nota}" onchange="updateNota('${s.matricula}', this.value)"></td>
+        <td><input class="mini" type="number" min="0" step="1" value="${s.faltas}" onchange="updateFaltas('${s.matricula}', this.value)"></td>
+        <td><span class="badge ${s.status==='ativo'?'ok':s.status==='advertido'?'warn':'bad'}">${cap(s.status)}</span></td>
+      </tr>`).join('');
+
+    content.innerHTML = `
+      <h1>Meus Alunos — Cálculo I</h1>
+      <p class="subhead">Gerencie notas e faltas dos 10 alunos matriculados nesta disciplina. As alterações são salvas automaticamente.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Aluno</th><th>Nota</th><th>Faltas</th><th>Situação</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div class="section-gap"></div>
+      <h1 style="font-size:20px;">Suporte</h1>
+      <p class="subhead">Envie uma mensagem para a coordenação do curso.</p>
+      <div class="compose">
+        <textarea id="suporte-texto-prof" placeholder="Escreva sua mensagem para a coordenação..."></textarea>
+        <button class="btn btn-brass" onclick="enviarSuporteProf()">Enviar mensagem</button>
+      </div>
+    `;
+  }catch(e){
+    content.innerHTML = `<h1>Meus Alunos — Cálculo I</h1><p class="subhead">${e.message}</p>`;
+  }
+}
+
+async function updateNota(matricula, val){
+  try{
+    await api('/professor/alunos/' + matricula, { method: 'PUT', body: JSON.stringify({ nota: val }) });
+    showToast('Nota atualizada.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+async function updateFaltas(matricula, val){
+  try{
+    await api('/professor/alunos/' + matricula, { method: 'PUT', body: JSON.stringify({ faltas: val }) });
+    showToast('Faltas atualizadas.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+async function enviarSuporteProf(){
+  const campo = document.getElementById('suporte-texto-prof');
+  const texto = campo.value.trim();
+  if(!texto) return;
+  try{
+    await api('/suporte', { method: 'POST', body: JSON.stringify({ texto }) });
+    campo.value = '';
+    showToast('Mensagem enviada à coordenação.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+
+/* ============================================================
+   COORDENAÇÃO
+   ============================================================ */
+async function renderCoordComunicacao(){
+  const content = document.getElementById('content');
+  content.innerHTML = `<h1>Comunicação</h1><p class="subhead">Carregando...</p>`;
+  try{
+    const [suporte, profs, alunos] = await Promise.all([
+      api('/coord/suporte'),
+      api('/coord/comunicados/professores'),
+      api('/coord/comunicados/alunos')
+    ]);
+
+    const suporteList = suporte.length ? suporte.map(m => `
+      <div class="msg">
+        <div class="meta"><span>${m.de} · ${m.role === 'aluno' ? 'Aluno' : 'Professor'} · ${m.data}</span></div>
+        ${m.texto}
+        ${m.resposta
+          ? `<div class="reply"><strong>Sua resposta:</strong> ${m.resposta}</div>`
+          : `<div class="reply">
+               <input type="text" class="mini" style="width:100%;margin-bottom:6px;" id="resposta-${m.id}" placeholder="Escrever resposta...">
+               <button class="btn btn-outline btn-sm" onclick="responderSuporte(${m.id})">Responder</button>
+             </div>`}
+      </div>
+    `).join('') : `<div class="empty-state">Nenhuma mensagem recebida de alunos ou professores.</div>`;
+
+    const profList = profs.length ? profs.map(m => `
+      <div class="msg from-coord"><div class="meta"><span>Para todos os professores · ${m.data}</span></div>${m.texto}</div>
+    `).join('') : `<div class="empty-state">Nenhum comunicado enviado ainda.</div>`;
+
+    const alunoList = alunos.length ? alunos.map(m => `
+      <div class="msg from-coord"><div class="meta"><span>Para todos os alunos · ${m.data}</span></div>${m.texto}</div>
+    `).join('') : `<div class="empty-state">Nenhum comunicado enviado ainda.</div>`;
+
+    content.innerHTML = `
+      <h1>Comunicação</h1>
+      <p class="subhead">Mensagens recebidas de alunos e professores, e comunicados enviados a eles.</p>
+
+      <h3 style="margin-bottom:12px;">Caixa de entrada — Suporte</h3>
+      <div class="msg-list">${suporteList}</div>
+
+      <div class="section-gap"></div>
+      <div class="grid">
+        <div>
+          <h3 style="margin-bottom:12px;">Comunicado aos professores</h3>
+          <div class="compose">
+            <textarea id="msg-professores" placeholder="Escreva um comunicado para todos os professores..."></textarea>
+            <button class="btn btn-brass" onclick="enviarComProfessores()">Enviar</button>
+          </div>
+          <div class="msg-list section-gap">${profList}</div>
+        </div>
+        <div>
+          <h3 style="margin-bottom:12px;">Comunicado aos alunos</h3>
+          <div class="compose">
+            <textarea id="msg-alunos" placeholder="Escreva um comunicado para todos os alunos..."></textarea>
+            <button class="btn btn-brass" onclick="enviarComAlunos()">Enviar</button>
+          </div>
+          <div class="msg-list section-gap">${alunoList}</div>
+        </div>
+      </div>
+    `;
+  }catch(e){
+    content.innerHTML = `<h1>Comunicação</h1><p class="subhead">${e.message}</p>`;
+  }
+}
+
+async function responderSuporte(id){
+  const input = document.getElementById('resposta-' + id);
+  const resposta = input.value.trim();
+  if(!resposta) return;
+  try{
+    await api('/coord/suporte/' + id + '/responder', { method: 'POST', body: JSON.stringify({ resposta }) });
+    await renderCoordComunicacao();
+    showToast('Resposta enviada.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+async function enviarComProfessores(){
+  const texto = document.getElementById('msg-professores').value.trim();
+  if(!texto) return;
+  try{
+    await api('/coord/comunicados/professores', { method: 'POST', body: JSON.stringify({ texto }) });
+    await renderCoordComunicacao();
+    showToast('Comunicado enviado aos professores.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+async function enviarComAlunos(){
+  const texto = document.getElementById('msg-alunos').value.trim();
+  if(!texto) return;
+  try{
+    await api('/coord/comunicados/alunos', { method: 'POST', body: JSON.stringify({ texto }) });
+    await renderCoordComunicacao();
+    showToast('Comunicado enviado aos alunos.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+
+async function renderCoordAdministracao(){
+  const content = document.getElementById('content');
+  content.innerHTML = `<h1>Administração</h1><p class="subhead">Carregando...</p>`;
+  try{
+    const [profs, alunos, historico] = await Promise.all([
+      api('/coord/professores'),
+      api('/coord/alunos'),
+      api('/coord/historico')
+    ]);
+
+    const profRows = profs.map(p => `
+      <tr>
+        <td><div class="name-cell">${p.nome}</div><div class="sub-cell">${p.disciplina} · Matrícula ${p.matricula}</div></td>
+        <td><span class="badge ${p.status==='ativo'?'ok':'bad'}">${cap(p.status)}</span></td>
+        <td>${p.status==='ativo'
+              ? `<button class="btn btn-danger btn-sm" onclick="demitirProfessor('${p.matricula}')">Demitir</button>`
+              : '—'}</td>
+      </tr>
+    `).join('');
+
+    const alunoRows = alunos.map(s => `
+      <tr>
+        <td><div class="name-cell">${s.nome}</div><div class="sub-cell">Matrícula ${s.matricula}</div></td>
+        <td><span class="badge ${s.status==='ativo'?'ok':s.status==='advertido'?'warn':'bad'}">${cap(s.status)}</span></td>
+        <td class="tag-row">
+          <button class="btn btn-outline btn-sm" onclick="acaoAluno('${s.matricula}','advertido')">Advertir</button>
+          <button class="btn btn-outline btn-sm" onclick="acaoAluno('${s.matricula}','suspenso')">Suspender</button>
+          <button class="btn btn-danger btn-sm" onclick="acaoAluno('${s.matricula}','expulso')">Expulsar</button>
+        </td>
+      </tr>
+    `).join('');
+
+    const historicoList = historico.length ? historico.map(a => `
+      <div class="msg"><div class="meta"><span>${a.data}</span></div>${a.texto}</div>
+    `).join('') : `<div class="empty-state">Nenhuma ação registrada ainda.</div>`;
+
+    content.innerHTML = `
+      <h1>Administração</h1>
+      <p class="subhead">Gestão de vínculo de professores e medidas disciplinares para alunos.</p>
+
+      <h3 style="margin-bottom:12px;">Professores</h3>
+      <div class="table-wrap">
+        <table><thead><tr><th>Professor</th><th>Situação</th><th></th></tr></thead><tbody>${profRows}</tbody></table>
+      </div>
+
+      <div class="section-gap"></div>
+      <h3 style="margin-bottom:12px;">Alunos</h3>
+      <div class="table-wrap">
+        <table><thead><tr><th>Aluno</th><th>Situação</th><th>Ações</th></tr></thead><tbody>${alunoRows}</tbody></table>
+      </div>
+
+      <div class="section-gap"></div>
+      <h3 style="margin-bottom:12px;">Histórico de ações</h3>
+      <div class="msg-list">${historicoList}</div>
+    `;
+  }catch(e){
+    content.innerHTML = `<h1>Administração</h1><p class="subhead">${e.message}</p>`;
+  }
+}
+
+async function demitirProfessor(matricula){
+  if(!confirm('Confirma o desligamento deste professor?')) return;
+  try{
+    await api('/coord/professores/' + matricula + '/demitir', { method: 'POST' });
+    await renderCoordAdministracao();
+    showToast('Professor desligado.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+async function acaoAluno(matricula, status){
+  const label = status === 'advertido' ? 'receba uma advertência' : status === 'suspenso' ? 'seja suspenso(a)' : 'seja expulso(a) da instituição';
+  if(!confirm(`Confirma que este aluno ${label}?`)) return;
+  try{
+    await api('/coord/alunos/' + matricula + '/acao', { method: 'POST', body: JSON.stringify({ status }) });
+    await renderCoordAdministracao();
+    showToast('Ação registrada.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+
+async function renderCoordDiretoria(){
+  const content = document.getElementById('content');
+  content.innerHTML = `<h1>Diretoria</h1><p class="subhead">Carregando...</p>`;
+  try{
+    const mensagens = await api('/coord/diretoria');
+    const list = mensagens.length ? mensagens.map(m => `
+      <div class="msg"><div class="meta"><span>Você · ${m.data}</span></div>${m.texto}</div>
+    `).join('') : `<div class="empty-state">Nenhuma mensagem enviada à diretoria ainda.</div>`;
+
+    content.innerHTML = `
+      <h1>Diretoria</h1>
+      <p class="subhead">Canal de comunicação da coordenação com a diretoria da instituição.</p>
+      <div class="msg-list">${list}</div>
+      <div class="compose">
+        <textarea id="msg-diretoria" placeholder="Escreva sua mensagem para a diretoria..."></textarea>
+        <button class="btn btn-brass" onclick="enviarDiretoria()">Enviar</button>
+      </div>
+    `;
+  }catch(e){
+    content.innerHTML = `<h1>Diretoria</h1><p class="subhead">${e.message}</p>`;
+  }
+}
+async function enviarDiretoria(){
+  const texto = document.getElementById('msg-diretoria').value.trim();
+  if(!texto) return;
+  try{
+    await api('/coord/diretoria', { method: 'POST', body: JSON.stringify({ texto }) });
+    await renderCoordDiretoria();
+    showToast('Mensagem enviada à diretoria.');
+  }catch(e){
+    showToast(e.message, true);
+  }
+}
+</script>
+</body>
+</html>
