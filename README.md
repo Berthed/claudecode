@@ -50,5 +50,3 @@ Autenticação: `Authorization: Bearer <token>` (token retornado no login).
 | POST | `/api/coord/alunos/:matricula/acao` | coordenador | Advertir/suspender/expulsar (`status`) |
 | GET | `/api/coord/historico` | coordenador | Histórico de ações administrativas |
 | GET/POST | `/api/coord/diretoria` | coordenador | Lista/envia mensagem à diretoria |
-
-Os dados continuam em memória (reiniciam ao reiniciar o servidor) — a mesma característica de demonstração do arquivo original, só que agora centralizada no back-end em vez do front-end.
